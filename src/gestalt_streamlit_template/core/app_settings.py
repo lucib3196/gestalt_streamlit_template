@@ -22,6 +22,7 @@ class AppSettings(BaseSettings):
     # -------------------------------------------------
     local_url: str = Field(description="Local server URL for LLM")
     production_url: str = Field(description="Production server URL for LLM")
+    langsmith_api_key: str = Field(description="Langsmith api key for tracing")
 
     # -------------------------------------------------
     # Derived
@@ -55,11 +56,16 @@ def get_settings() -> AppSettings:
         raise ValueError(f"Invalid ENV value: {raw_env}")
     environment: ENV = cast(ENV, raw_env)
 
+    langsmith_api_key = os.getenv("LANGSMITH_API_KEY", None)
+    if not langsmith_api_key:
+        raise ValueError("LANGSMITH_API_KEY Not found. Must be set in .env")
+
     return AppSettings(
         name=os.getenv("APP_NAME", "gestalt_streamlit_template"),
         environment=environment,
         local_url=os.getenv("LOCAL_URL", "http://127.0.0.1:2024"),
         production_url=os.getenv("PRODUCTION_URL", ""),
+        langsmith_api_key=langsmith_api_key,
     )
 
 
