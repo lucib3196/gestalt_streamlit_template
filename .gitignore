@@ -29,7 +29,7 @@ poetry.lock
 # ===============================
 # Streamlit
 # ===============================
-.streamlit/secrets.toml
+src\.streamlit\secrets.toml
 .streamlit/*.toml
 
 # Streamlit cache & runtime
