@@ -1,10 +1,11 @@
 import streamlit as st
-from ..core import ENV, ChatOption, CHAT_NAMES, CHAT_OPTIONS
+from core import ENV, ChatOption, CHAT_OPTIONS
 
 
-def render_title(env: ENV, thread_id: str | None = None):
-    title = "Gestalt AI"
-    if env.value == "local":
+def render_title(
+    title: str = "My Chat", env: ENV = ENV.LOCAL, thread_id: str | None = None
+):
+    if env == "local":
         title += " (Local DEV)"
     if thread_id:
         title += f" {thread_id}"

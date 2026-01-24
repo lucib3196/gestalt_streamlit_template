@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Dict, Literal, List, cast
+from typing import Dict, Literal
 from enum import Enum
 
 
@@ -26,7 +26,7 @@ class ChatOption(BaseModel):
 CHAT_OPTIONS: Dict[CHAT_NAMES, ChatOption] = {
     "mychat": ChatOption(
         label="My Chat",
-        chat_id="mychat",
+        chat_id="question_classification",
         description="A simple chatbot",
         mode=ALLOWED_MODE.TEXT,
     )

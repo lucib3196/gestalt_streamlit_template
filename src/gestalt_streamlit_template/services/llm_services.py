@@ -1,5 +1,5 @@
 import streamlit as st
-from ..core import client
+from core import client
 from .async_wrappers import run_async
 
 
@@ -56,7 +56,7 @@ def send_message(prompt: str):
         async for token in stream_langgraph(
             [user_message],
             thread_id,
-            st.session_state.chat_data.url,
+            st.session_state.chat_data.chat_id,
         ):
             content = token.get("content")
             if content:

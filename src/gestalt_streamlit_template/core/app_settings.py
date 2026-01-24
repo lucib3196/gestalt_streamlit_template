@@ -1,9 +1,9 @@
+from functools import lru_cache
+from enum import Enum
+from typing import Literal
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field
-from typing import cast
-from functools import lru_cache
-import os
-from enum import Enum
 
 
 class ENV(str, Enum):
@@ -12,62 +12,49 @@ class ENV(str, Enum):
 
 
 class AppSettings(BaseSettings):
-    name: str
+    # -------------------------------------------------
+    # App
+    # -------------------------------------------------
+    name: str = "gestalt_streamlit_template"
+
     # -------------------------------------------------
     # Environment
     # -------------------------------------------------
-    environment: ENV = Field(default=ENV.LOCAL, description="Deployment environment")
+    environment: ENV = ENV.LOCAL
+
     # -------------------------------------------------
     # LLM Server
     # -------------------------------------------------
-    local_url: str = Field(description="Local server URL for LLM")
-    production_url: str = Field(description="Production server URL for LLM")
-    langsmith_api_key: str = Field(description="Langsmith api key for tracing")
+    local_url: str = "http://127.0.0.1:2024"
+    production_url: str = ""
+
+    # -------------------------------------------------
+    # Secrets
+    # -------------------------------------------------
+    langsmith_api_key: str | None = None
 
     # -------------------------------------------------
     # Derived
     # -------------------------------------------------
     @property
     def url(self) -> str:
-        return (
-            self.local_url if self.environment.value == "local" else self.production_url
-        )
+        return self.local_url if self.environment == ENV.LOCAL else self.production_url
 
     # -------------------------------------------------
     # Pydantic config
     # -------------------------------------------------
     model_config = SettingsConfigDict(
-        env_file="./.env",
+        env_file=".env",
         env_file_encoding="utf-8",
+        case_sensitive=False,
         extra="ignore",
     )
 
 
-# -------------------------------------------------
-# Singleton accessor
-# -------------------------------------------------
-
-
 @lru_cache
 def get_settings() -> AppSettings:
-    """Cached settings instance (safe for Streamlit/FastAPI)."""
-    raw_env = os.getenv("ENV", "local")
-    if raw_env not in ("local", "production"):
-        raise ValueError(f"Invalid ENV value: {raw_env}")
-    environment: ENV = cast(ENV, raw_env)
-
-    langsmith_api_key = os.getenv("LANGSMITH_API_KEY", None)
-    if not langsmith_api_key:
-        raise ValueError("LANGSMITH_API_KEY Not found. Must be set in .env")
-
-    return AppSettings(
-        name=os.getenv("APP_NAME", "gestalt_streamlit_template"),
-        environment=environment,
-        local_url=os.getenv("LOCAL_URL", "http://127.0.0.1:2024"),
-        production_url=os.getenv("PRODUCTION_URL", ""),
-        langsmith_api_key=langsmith_api_key,
-    )
-
-
-if __name__ == "__main__":
-    print(get_settings())
+    """
+    Cached settings instance.
+    Safe for Streamlit, FastAPI, CLI.
+    """
+    return AppSettings()

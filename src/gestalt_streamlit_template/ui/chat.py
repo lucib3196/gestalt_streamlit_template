@@ -1,5 +1,5 @@
 import streamlit as st
-from ..services import send_message
+from services import send_message
 
 
 def render_chat():
