@@ -110,7 +110,7 @@ LANGSMITH_PROJECT="MyLangsmithProject"
 ## Running the Application
 
 ```bash
-streamlit run streamlit_app/main.py
+streamlit run gestalt_streamlit_template/main.py
 ```
 
 The application will open automatically in your browser.
