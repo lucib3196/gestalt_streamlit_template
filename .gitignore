@@ -10,7 +10,7 @@ __pycache__/
 .eggs/
 dist/
 build/
-
+secrets.toml
 # ===============================
 # Virtual environments
 # ===============================
