@@ -1,3 +1,5 @@
+gestalt_streamlit_template\src\.streamlit\secrets.toml
+
 # ===============================
 # Python
 # ===============================
@@ -10,7 +12,7 @@ __pycache__/
 .eggs/
 dist/
 build/
-
+secrets.toml
 # ===============================
 # Virtual environments
 # ===============================
