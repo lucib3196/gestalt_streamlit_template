@@ -5,6 +5,7 @@ from .config import CHAT_NAMES
 from services.llm_services import initialize_thread_id
 from models import SourceRef
 
+show_sources = st.secrets.get("SHOW_SOURCES",False)
 
 class DefaultState(BaseModel):
     messages: List[Any] = []
@@ -13,6 +14,7 @@ class DefaultState(BaseModel):
     sources: List[SourceRef] = []
     active_source: str = ""
     source_rotation: int = 0
+    show_sources: bool = show_sources
 
 
 DEFAULT_STATE = DefaultState(
@@ -24,3 +26,4 @@ def init_session():
     for key, value in DEFAULT_STATE.model_dump().items():
         if key not in st.session_state:
             st.session_state[key] = value
+            
