@@ -88,3 +88,6 @@ htmlcov/
 # ===============================
 .local/
 .cache/
+
+# Other
+assets/

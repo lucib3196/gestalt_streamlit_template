@@ -1488,6 +1488,7 @@ protobuf = ">=3.20,<7"
 pyarrow = ">=7.0"
 pydeck = ">=0.8.0b4,<1"
 requests = ">=2.27,<3"
+streamlit-pdf = {version = ">=1.0.0", optional = true, markers = "extra == \"pdf\""}
 tenacity = ">=8.1.0,<10"
 toml = ">=0.10.1,<2"
 tornado = ">=6.0.3,<6.5.0 || >6.5.0,<7"
@@ -1503,6 +1504,22 @@ performance = ["httptools (>=0.6.3)", "orjson (>=3.5.0)", "uvloop (>=0.15.2) ; s
 snowflake = ["snowflake-connector-python (>=3.3.0) ; python_version < \"3.12\"", "snowflake-snowpark-python[modin] (>=1.17.0) ; python_version < \"3.12\""]
 sql = ["SQLAlchemy (>=2.0.0)"]
 starlette = ["anyio (>=4.0.0)", "itsdangerous (>=2.1.2)", "python-multipart (>=0.0.10)", "starlette (>=0.40.0)", "uvicorn (>=0.30.0)", "websockets (>=12.0.0)"]
+
+[[package]]
+name = "streamlit-pdf"
+version = "2.0.1"
+description = "A Streamlit component for viewing PDF files"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "streamlit_pdf-2.0.1-py3-none-any.whl", hash = "sha256:8330d7f954e46edc7574b7e498378462555a8e25e829946abb78dbf5684b0a1e"},
+    {file = "streamlit_pdf-2.0.1.tar.gz", hash = "sha256:c6306381d0eeb291d7a4f6eb16cfbf937560a29be78049c64251fa2c3276e1a2"},
+]
+
+[package.extras]
+devel = ["playwright (==1.49.*)", "pytest (==7.4.0)", "pytest-playwright-snapshot (==1.0)", "pytest-rerunfailures (==12.0)", "requests (==2.31.0)", "wheel"]
+with-streamlit = ["streamlit (>=1.51.0)"]
 
 [[package]]
 name = "tenacity"
@@ -1658,4 +1675,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13"
-content-hash = "e0edc5e904212322c1dcb92f5f2f8b4c93f217ce445cb559cfb14f64d986f40b"
+content-hash = "c647ec99025a568b09d8c6b56f2c431873e7b05c7ccbe6394fc0e1310131c68b"
