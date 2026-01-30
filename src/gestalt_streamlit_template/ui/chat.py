@@ -13,3 +13,10 @@ def render_chat_input():
     prompt = st.chat_input("Type a message")
     if prompt:
         send_message(prompt)
+
+
+
+
+
+
+

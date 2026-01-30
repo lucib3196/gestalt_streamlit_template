@@ -2,13 +2,17 @@ from typing import Any, List
 from pydantic import BaseModel
 import streamlit as st
 from .config import CHAT_NAMES
-from services.llm_services import get_thread_id, initialize_thread_id
+from services.llm_services import initialize_thread_id
+from models import SourceRef
 
 
 class DefaultState(BaseModel):
     messages: List[Any] = []
     thread_id: str | None = None
     chat_select: CHAT_NAMES | None
+    sources: List[SourceRef] = []
+    active_source: str = ""
+    source_rotation: int = 0
 
 
 DEFAULT_STATE = DefaultState(

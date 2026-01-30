@@ -2,6 +2,33 @@ import streamlit as st
 from core import client
 from .async_wrappers import run_async
 
+from pathlib import Path
+from typing import Any, Dict
+from models import SourceRef
+
+
+def extract_sources(source_data: Dict[str, Any]):
+    if not source_data:
+        return
+    sources: list[SourceRef] = []
+    source_list = source_data.get("messages", [])
+    for doc in source_list[-1].get("artifact", []):
+        metadata = doc.get("metadata", {})
+        path = metadata.get("path")
+        if not path:
+            continue
+        sources.append(
+            SourceRef(
+                source_id=metadata.get("source_id"),
+                title=metadata.get("title", "Untitled Source"),
+                path=Path(path),
+                page=metadata.get("page"),
+                type=metadata.get("type", "pdf"),
+            )
+        )
+        print(f"\nCleaned sources {sources}\n")
+    st.session_state.sources = sources
+
 
 async def get_thread_id():
     return await client.threads.create()
@@ -15,6 +42,7 @@ def initialize_thread_id() -> str:
 
 
 async def stream_langgraph(messages, thread_id: str | None, assistant_id: str):
+
     async for chunk in client.runs.stream(
         thread_id,
         assistant_id=assistant_id,
@@ -24,6 +52,9 @@ async def stream_langgraph(messages, thread_id: str | None, assistant_id: str):
         if chunk.event != "updates":
             continue
         model_data = chunk.data.get("model")
+        source_data: Dict[str, Any] = chunk.data.get("tools", {})
+        extract_sources(source_data)
+
         if not model_data:
             continue
         messages_list = model_data.get("messages", [])
@@ -33,6 +64,7 @@ async def stream_langgraph(messages, thread_id: str | None, assistant_id: str):
         last_msg = messages_list[-1]
         # print("Last message in stream", last_msg)
         if last_msg:
+            print("This is the last message\n", last_msg)
             yield last_msg
 
 
@@ -64,6 +96,7 @@ def send_message(prompt: str):
                 placeholder.markdown(buffer)
             tool_calls = token.get("tool_calls")
             if tool_calls:
+
                 for call in tool_calls:
                     call_id = call.get("id")
                     if call_id in tool_calls_rendered:

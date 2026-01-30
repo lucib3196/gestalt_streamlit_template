@@ -1,10 +1,11 @@
-from core import init_session, get_settings
+from core import init_session
 from ui import (
     render_title,
     render_select_box,
     render_chatbot_description,
     render_chat,
     render_chat_input,
+    source_view
 )
 import streamlit as st
 
@@ -25,6 +26,9 @@ def render_ui():
     # Actual Chat Component
     render_chat()
     render_chat_input()
+    source_view()
 
 
 render_ui()
+
+

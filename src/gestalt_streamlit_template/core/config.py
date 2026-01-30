@@ -26,7 +26,7 @@ class ChatOption(BaseModel):
 CHAT_OPTIONS: Dict[CHAT_NAMES, ChatOption] = {
     "mychat": ChatOption(
         label="My Chat",
-        chat_id="question_classification",
+        chat_id="agent",
         description="A simple chatbot",
         mode=ALLOWED_MODE.TEXT,
     )
