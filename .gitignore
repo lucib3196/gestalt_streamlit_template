@@ -1,6 +1,5 @@
 gestalt_streamlit_template\src\.streamlit\secrets.toml
-.streamlit/.secrets.toml
-src\.streamlit\.secrets.toml
+.streamlit/secrets.toml
 src\.streamlit\secrets.toml
 # ===============================
 # Python

@@ -5,7 +5,7 @@ from ui import (
     render_chatbot_description,
     render_chat,
     render_chat_input,
-    source_view,
+    source_view
 )
 import streamlit as st
 
@@ -26,8 +26,9 @@ def render_ui():
     # Actual Chat Component
     render_chat()
     render_chat_input()
-    if st.session_state.get("show_sources"):
-        source_view()
+    source_view()
 
 
 render_ui()
+
+

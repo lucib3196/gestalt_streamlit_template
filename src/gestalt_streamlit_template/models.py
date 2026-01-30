@@ -1,10 +1,12 @@
+
+
 from pathlib import Path
 from typing import Optional
 from pydantic import BaseModel
 
-
 class SourceRef(BaseModel):
-    lecture_title: str | None
-    lecture_summary: str | None
-    source_pdf: Path | str
+    source_id: str
+    title: str
+    path: Path
     page: Optional[int]
+    type: str

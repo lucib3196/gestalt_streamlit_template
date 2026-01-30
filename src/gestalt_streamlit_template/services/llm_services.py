@@ -14,17 +14,19 @@ def extract_sources(source_data: Dict[str, Any]):
     source_list = source_data.get("messages", [])
     for doc in source_list[-1].get("artifact", []):
         metadata = doc.get("metadata", {})
-        path = metadata.get("source_pdf")
+        path = metadata.get("path")
         if not path:
             continue
         sources.append(
             SourceRef(
-                lecture_title=metadata.get("lecture_title", "Untitled Source"),
-                lecture_summary=metadata.get("lecture_summary", None),
-                source_pdf=Path(path),
-                page=None,
+                source_id=metadata.get("source_id"),
+                title=metadata.get("title", "Untitled Source"),
+                path=Path(path),
+                page=metadata.get("page"),
+                type=metadata.get("type", "pdf"),
             )
         )
+        print(f"\nCleaned sources {sources}\n")
     st.session_state.sources = sources
 
 
@@ -60,7 +62,9 @@ async def stream_langgraph(messages, thread_id: str | None, assistant_id: str):
         if not messages_list:
             continue
         last_msg = messages_list[-1]
+        # print("Last message in stream", last_msg)
         if last_msg:
+            print("This is the last message\n", last_msg)
             yield last_msg
 
 
